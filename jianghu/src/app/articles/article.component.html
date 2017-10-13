@@ -1,0 +1,34 @@
+<div class="ui grid article-container">
+  <div class="column">
+
+    <div *ngIf="loading" class="ui attached center aligned segment huge loading article-segment">
+      <img src="assets/image/paragraph.png">
+    </div>
+
+
+    <div *ngIf="loadingError" class="ui segment error message">
+      {{loadingError}}
+    </div>
+
+    <div *ngIf="article" class="ui attached segments article-segment">
+      <div
+        [style.padding]="'30px '+pageMargin+ 'px'"
+        class="ui attached segment header"
+      >
+        <a
+          class="title"
+          target="_blank"
+          title="Go to Original Page"
+          href="{{article.url}}"
+        >{{article.title}}</a>
+        <div class="ui dividing header source">{{sourceText}}</div>
+      </div>
+      <div
+        class="ui attached segment content"
+        [style.padding]="'30px '+pageMargin+ 'px'"
+        [innerHtml]="safeContent">
+      </div>
+    </div>
+  </div>
+</div>
+

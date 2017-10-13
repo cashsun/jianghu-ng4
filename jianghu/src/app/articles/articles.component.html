@@ -1,0 +1,13 @@
+<div class="ui {{numOfColumns}} stackable cards articles-container">
+
+  <app-article-card
+    *ngFor="let uArticle of visibleArticles$ | async"
+    [uArticle]="uArticle"
+    class="card"
+  ></app-article-card>
+
+  <div *ngIf="loadingArticles" class="ui active inverted dimmer">
+    <div class="ui huge loader"></div>
+  </div>
+</div>
+

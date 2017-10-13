@@ -1,0 +1,32 @@
+<div class="ui mini icon basic buttons">
+  <button
+    title="返回"
+    routerLink="articles"
+    class="ui icon button"
+  >
+    <i class="angle left icon"></i>
+  </button>
+
+  <button
+    title="{{hasAdded()?'删除':'收藏'}}"
+    class="ui {{loading?'loading':''}} icon button"
+  >
+    <i class="{{hasAdded()?'trash outline':'plus'}} icon"></i>
+  </button>
+
+  <button
+    title="{{isFav()?'移出[欢喜]':'加入[欢喜]'}}"
+    class="ui {{loading?'loading':''}} icon button"
+  >
+    <i class="heart {{isFav()?'':'outline'}} icon"></i>
+  </button>
+
+  <button
+    title="{{isUnread()?'加入[已阅]':'加入[未读]'}}"
+    class="ui {{loading?'loading':''}} icon button"
+  >
+    <i class="{{isUnread()?'square outline':'checkmark box'}} icon"></i>
+  </button>
+
+  <i class="plus icon"></i>
+</div>

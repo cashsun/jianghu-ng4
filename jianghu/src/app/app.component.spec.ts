@@ -1,43 +1,60 @@
 import { TestBed, async } from '@angular/core/testing';
-
+import { Component } from '@angular/core';
+import { ArticlesControlsComponent } from './articles/articles-controls.component';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
-import { BonfireComponent } from './components/bonfire.component';
-import { By } from '@angular/platform-browser';
-import { ArticlesComponent } from './components/articles.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NgReduxModule } from '@angular-redux/store';
+import { ArticlesService } from './services/articles.service';
+import { API } from './services/api';
+import { ArticlesActions } from './actions/articles';
+
+@Component({
+  selector: 'app-dummy',
+  template: '',
+  styleUrls: ['./app.component.less']
+})
+class DummyComponent {
+}
+
 const appRoutes: Routes = [
-  { path: '', component: ArticlesComponent },
-  { path: 'articles', component: ArticlesComponent }
+  { path: '', component: DummyComponent },
+  { path: 'articles', component: DummyComponent },
+  { path: 'bonfire', component: DummyComponent }
 ];
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot(appRoutes)],
-      providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
+      imports: [
+        RouterModule.forRoot(appRoutes),
+        HttpClientModule,
+        NgReduxModule
+      ],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: '/' },
+        ArticlesService,
+        ArticlesActions,
+        API
+      ],
       declarations: [
         AppComponent,
-        ArticlesComponent
+        DummyComponent,
+        ArticlesControlsComponent
       ],
     }).compileComponents();
   }));
 
   it('should create the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
+    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   }));
 
   it(`should have as title 'app'`, async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
+    const app = fixture.componentInstance;
     expect(app.title).toEqual('app');
-  }));
-
-  it(`should have as sidebarVisible false`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.sidebarVisible).toEqual(false);
   }));
 
   it(`should have as onToggleSidebar set`, async(() => {
@@ -62,19 +79,43 @@ describe('AppComponent', () => {
       const compiled = fixture.debugElement.nativeElement;
       expect(compiled.querySelectorAll('.ui.sidebar').length).toEqual(1);
     }));
+
     it('should render sidebar and attach toggle callback', async(() => {
       const fixture = TestBed.createComponent(AppComponent);
-      const app = fixture.debugElement.componentInstance;
-      app.onToggleSidebar = () => {};
+      const app = fixture.componentInstance;
+      app.onToggleSidebar = () => {
+      };
       spyOn(app, 'onToggleSidebar');
       fixture.detectChanges();
 
-      fixture.nativeElement
-        .querySelector('.ui.sidebar > a.item').click();
+      const items = fixture.nativeElement
+        .querySelectorAll('.ui.sidebar > a.item');
 
-      expect(app.onToggleSidebar).toHaveBeenCalled();
+      items[0].click();
 
+      expect(app.onToggleSidebar).toHaveBeenCalledTimes(1);
+      return app.currentCategory$
+        .subscribe(current => expect(current).toEqual('读文'));
     }));
+
+    it('click other item on the sidebar should work as expected.', async(() => {
+      const fixture = TestBed.createComponent(AppComponent);
+      const app = fixture.debugElement.componentInstance;
+      app.onToggleSidebar = () => {
+      };
+      spyOn(app, 'onToggleSidebar');
+      fixture.detectChanges();
+
+      const items = fixture.nativeElement
+        .querySelectorAll('.ui.sidebar > a.item');
+
+      items[1].click();
+
+      expect(app.onToggleSidebar).toHaveBeenCalledTimes(1);
+      return app.currentCategory$
+        .subscribe(current => expect(current).toEqual('江湖'));
+    }));
+
   });
 
 

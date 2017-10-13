@@ -1,0 +1,71 @@
+<div class="ui middle aligned center aligned grid">
+  <div class="column login-form">
+    <div *ngIf="isLoggedIn()" class="ui centered card">
+      <div class="content">
+        <div class="header">{{(user$ | async)?.firstname}} {{(user$ | async)?.lastname}}</div>
+        <div class="description">
+          欢迎回来
+        </div>
+      </div>
+      <div class="extra content">
+        <div class="meta">{{(user$ | async)?.email}}</div>
+      </div>
+      <div class="ui bottom attached button" (click)="onClickLogout()">
+        登出
+      </div>
+    </div>
+    <form class="ui form">
+      <div class="ui segment">
+        <h4 class="ui dividing header">{{isLoggedIn()?'切换用户':'登入'}}</h4>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input
+              #emailInput
+              type="text"
+              name="email"
+              placeholder="E-mail address"
+              (keyup.enter)="onClickLogin()"
+              (input)="email = emailInput.value"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input
+              #passwordInput
+              type="password"
+              name="password"
+              (keyup.enter)="onClickLogin()"
+              (input)="password = passwordInput.value"
+              placeholder="Password"
+            />
+          </div>
+        </div>
+        <button
+          type="button"
+          [disabled]="isLoginButtonDisabled()"
+          class="ui fluid large teal submit button"
+          (click)="onClickLogin()"
+        >Login
+        </button>
+      </div>
+
+      <div class="ui error message"></div>
+
+    </form>
+
+    <div class="ui message">
+      {{loginErrorMessage}}
+      New to us? <a routerLink="/articles">Sign Up</a>
+    </div>
+    <div *ngIf="loginErrorMessage" class="ui negative message">
+      <div class="header">
+        Oops, there's a problem signing you in:
+      </div>
+      <p>{{loginErrorMessage}}</p>
+    </div>
+  </div>
+</div>

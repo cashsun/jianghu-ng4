@@ -2,11 +2,15 @@
 
 
 <!--side bar-->
-
-
-<div class="ui pushable">
-  <div class="ui sidebar left inverted vertical menu">
-    <a *ngFor="let item of categories"
+<div class="ui pushable app-root">
+  <div class="ui sidebar left inverted vertical menu" #sidebar>
+    <div class="item">
+      <div class="ui logo icon">
+        <i class="ui book large icon"></i>
+        <span class="logo-text">江湖</span>
+      </div>
+    </div>
+    <a *ngFor="let item of menuItems"
        routerLink="{{item.path}}"
        routerLinkActive="active"
        class="item"
@@ -21,8 +25,16 @@
     <div class="ui top attached menu">
       <a class="item" (click)="onToggleSidebar()">
         <i class="sidebar icon"></i>
-        Menu
+        {{currentCategory$ | async}}
       </a>
+      <app-articles-controls
+        class="item controls"
+        *ngIf="visibleControls === 'articles'"
+      ></app-articles-controls>
+      <app-article-controls
+        class="controls"
+        *ngIf="visibleControls === 'article'"
+      ></app-article-controls>
     </div>
 
     <!--content -->

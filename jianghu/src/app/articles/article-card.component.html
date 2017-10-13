@@ -1,0 +1,65 @@
+<div *ngIf="uArticle.image" class="blurring dimmable image" #dimmer>
+  <ng-container *ngTemplateOutlet="dimmerTemplate"></ng-container>
+  <img src="{{uArticle.image}}" (error)="onImageLoadError()">
+</div>
+
+<div *ngIf="!uArticle.image" class="blurring dimmable description" #dimmer>
+  <ng-container *ngTemplateOutlet="dimmerTemplate"></ng-container>
+  <div class="text">{{uArticle.description}}</div>
+</div>
+
+<div class="content">
+  <div class="header">
+    <a routerLink="/article/{{uArticle._id}}"
+       class="title-text"
+    >
+      {{uArticle.title}}
+    </a>
+  </div>
+  <div class="meta">
+    <span>{{formatteddate}}</span>
+  </div>
+</div>
+<div class="extra content">
+  <span class="left floated source">
+    <a target="_blank" href="{{uArticle.url}}">
+      {{sourceText}}
+    </a>
+  </span>
+  <span *ngIf="uArticle.favourite" class="right floated">
+    <i class="heart outline icon"></i>
+  </span>
+</div>
+
+
+
+<ng-template #dimmerTemplate>
+  <div class="ui dimmer">
+    <div class="content">
+      <div class="center">
+        <div *ngIf="uArticle.group === 'unread'"
+             class="ui inverted circular icon button"
+             (click)="onClickArchiveButton()"
+        >
+          <i class="icon checkmark box"></i>
+        </div>
+        <div *ngIf="uArticle.group !== 'unread'"
+             class="ui inverted circular icon button"
+             (click)="onClickBookmarkButton()"
+        >
+          <i class="icon bookmark outline"></i>
+        </div>
+        <div class="ui inverted circular icon button"
+             (click)="onClickFavButton()"
+        >
+          <i class="icon heart {{uArticle.favourite?'':'outline'}}"></i>
+        </div>
+        <div class="ui inverted circular icon button"
+             (click)="onClickRemoveButton()"
+        >
+          <i class="icon trash outline"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
