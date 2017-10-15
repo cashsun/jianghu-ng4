@@ -22,7 +22,7 @@ const getQueryParams = (query: object = {}): HttpParams => {
 
 @Injectable()
 export class API {
-  token: string;
+  token = '';
 
   constructor(private http: HttpClient) {
     this.token = localStorage.getItem(KEY);
@@ -37,8 +37,7 @@ export class API {
   }
 
   logout() {
-    this.token = null;
-    this.setToken(null);
+    this.setToken('');
   }
 
   setToken(token: string) {
@@ -101,5 +100,11 @@ export class API {
       {
         headers: this.defaultHeader()
       })
+  }
+
+  removeUserArticle(uaid: string) {
+    return this.http.delete(`${baseUrl}/api/userArticles/${uaid}`, {
+      headers: this.defaultHeader()
+    });
   }
 }

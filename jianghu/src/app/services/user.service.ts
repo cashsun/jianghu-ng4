@@ -15,7 +15,6 @@ export class UserService {
   }
 
   logout() {
-    console.log('logging out');
     this.api.logout();
     this.userActions.removeUser();
   }

@@ -1,0 +1,33 @@
+<div class="ui basic modal" #addArticleModal>
+  <div class="ui icon header">
+    <i class="archive icon"></i>
+    收藏文章
+  </div>
+  <div class="content">
+    <div class="ui centered huge inverted transparent focus input url">
+      <i class="linkify icon"></i>
+      <input
+        #urlInput
+        type="text"
+        name="url"
+        (input)="onInputUrl(urlInput.value)"
+        (keyup.enter)="onAddArticleSubmit(true)"
+        placeholder="网址 | URL ..."
+        autocomplete="off"
+      />
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui red basic cancel inverted button">
+      <i class="remove icon"></i>
+      取消
+    </div>
+    <div
+      class="ui green ok inverted button {{urlInputError}}"
+      (click)="onAddArticleSubmit()"
+    >
+      <i class="checkmark icon"></i>
+      添加
+    </div>
+  </div>
+</div>

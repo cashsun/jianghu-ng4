@@ -1,68 +1,41 @@
-<div>
-  <div class="ui tiny basic buttons">
-    <button
-      class="ui button {{isActive()}}"
-      (click)="onClickFilter('unread', isFavourite)"
-    >
-      <i class="bookmark outline icon"></i>
-      收藏
-    </button>
-    <button
-      class="ui button {{isActive('archived')}}"
-      (click)="onClickFilter('archived', isFavourite)"
-    >
-      <i class="checkmark box icon"></i>
-      已阅
-    </button>
-    <button
-      class="ui button {{isActive('fav')}}"
-      (click)="onClickFilter(selectedGroup, !isFavourite)"
-    >
-      <i class="heart outline icon"></i>
-      欢喜
-    </button>
-
-  </div>
-
-  <div class="ui tiny buttons add-article">
-    <button
-      (click)="onOpenAddArticleModal()"
-      class="ui small icon basic {{fetchingArticle?'loading':''}} button">
-      <i class="plus icon"></i>
-    </button>
-  </div>
-  <div class="ui basic modal" #addArticleModal>
-    <div class="ui icon header">
-      <i class="archive icon"></i>
-      添加文章
-    </div>
-    <div class="content">
-      <div class="ui centered huge inverted transparent focus input url">
-        <i class="linkify icon"></i>
-        <input
-          #urlInput
-          type="text"
-          name="url"
-          (input)="onInputUrl(urlInput.value)"
-          (keyup.enter)="onAddArticleSubmit(true)"
-          placeholder="网址 | URL ..."
-          autocomplete="off"
-        />
-      </div>
-    </div>
-    <div class="actions">
-      <div class="ui red basic cancel inverted button">
-        <i class="remove icon"></i>
-        取消
-      </div>
-      <div
-        class="ui green ok inverted button {{urlInputError}}"
-        (click)="onAddArticleSubmit()"
-      >
-        <i class="checkmark icon"></i>
-        添加
-      </div>
-    </div>
-  </div>
-
+<div
+  class="item {{isActive()}}"
+  (click)="onClickFilter('unread', isFavourite)"
+>
+  <i class="bookmark outline icon"></i>
+  收藏
 </div>
+<div
+  class="item {{isActive('archived')}}"
+  (click)="onClickFilter('archived', isFavourite)"
+>
+  <i class="checkmark box icon"></i>
+  已阅
+</div>
+<div
+  class="item {{isActive('fav')}}"
+  (click)="onClickFilter(selectedGroup, !isFavourite)"
+>
+  <i class="heart outline icon"></i>
+  欢喜
+</div>
+
+
+<div class="item add-article">
+  <div class="ui teal {{fetchingArticle?'loading':''}} icon button add-article-btn" #openModalButton>
+    <i class="plus icon"></i>
+  </div>
+</div>
+
+<div class="item">
+  <div class="ui transparent icon input">
+    <input type="text" placeholder="搜索..." #searchInput>
+    <i class="search link icon"></i>
+  </div>
+</div>
+
+<app-add-article-modal
+  [open$]="openAddArticleModal$"
+  [submit]="handleSubmit"
+  [uid]="uid"
+></app-add-article-modal>

@@ -1,12 +1,11 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ArticlesService } from '../services/articles.service';
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { ArticlesService } from '../services/articles.service';
 declare const $: any;
 
-const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/;
 
 @Component({
   selector: 'app-articles-controls',
@@ -16,17 +15,19 @@ const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b
 export class ArticlesControlsComponent implements OnInit, OnDestroy {
 
   selectedGroup: string;
-  url: string;
-  urlInputError = 'disabled';
   isFavourite: boolean;
   fetchingArticle = false;
-  @ViewChild('addArticleModal')
-  private readonly addArticleModal: ElementRef;
+  @ViewChild('openModalButton')
+  readonly openModalButton: ElementRef;
+  @ViewChild('searchInput')
+  readonly searchInput: ElementRef;
 
   @select(['user', '_id'])
   readonly uid$: Observable<string>;
-  private uid: string;
   private sub: Subscription;
+  uid: string;
+  openAddArticleModal$: Observable<any>;
+  handleSubmit: (fetch$: Subscription) => {};
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -34,6 +35,7 @@ export class ArticlesControlsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.handleSubmit = this.onSubmit.bind(this);
     this.sub = this.route.queryParams
       .map(query => {
         const { fav, group } = query;
@@ -45,7 +47,20 @@ export class ArticlesControlsComponent implements OnInit, OnDestroy {
           .first(uid => !!uid)
           .map(uid => this.uid = uid)
       )
+      .merge(
+        Observable.fromEvent($(this.searchInput.nativeElement), 'input')
+          .debounceTime(500)
+          .map(({target}) => this.articlesService.setSearch(target.value))
+      )
       .subscribe();
+    this.openAddArticleModal$ = Observable.fromEvent($(this.openModalButton.nativeElement), 'click');
+  }
+
+  onSubmit(fetch$) {
+    this.fetchingArticle = true;
+    fetch$.add(() => {
+      this.fetchingArticle = false;
+    });
   }
 
   onClickFilter(group, fav) {
@@ -55,35 +70,8 @@ export class ArticlesControlsComponent implements OnInit, OnDestroy {
     this.router.navigate(['articles'], { queryParams: { group, fav } })
   }
 
-  isUrlValid() {
-    console.log('url valid?', URL_REGEX.test(this.url), this.url);
-    return URL_REGEX.test(this.url);
-  }
-
-  onInputUrl(url) {
-    this.url = url;
-    this.urlInputError = this.isUrlValid() ? '' : 'disabled';
-  }
-
   ngOnDestroy() {
     this.sub.unsubscribe();
-  }
-
-  onOpenAddArticleModal() {
-    $(this.addArticleModal.nativeElement)
-      .modal('show');
-  }
-
-  onAddArticleSubmit(hideModal) {
-    if (this.uid && this.isUrlValid()) {
-      this.fetchingArticle = true;
-      if (hideModal) {
-        $(this.addArticleModal.nativeElement).modal('hide');
-      }
-      this.articlesService.fetchArticleForUser(this.url, this.uid)
-        .subscribe()
-        .add(() => this.fetchingArticle = false);
-    }
   }
 
   isActive(key) {

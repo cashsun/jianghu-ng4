@@ -6,7 +6,7 @@
   <div class="ui sidebar left inverted vertical menu" #sidebar>
     <div class="item">
       <div class="ui logo icon">
-        <i class="ui book large icon"></i>
+        <i class="book large icon"></i>
         <span class="logo-text">江湖</span>
       </div>
     </div>
@@ -22,17 +22,17 @@
   </div>
   <div class="pusher">
     <!--menu trigger-->
-    <div class="ui top attached menu">
+    <div class="ui top attached tiny menu">
       <a class="item" (click)="onToggleSidebar()">
         <i class="sidebar icon"></i>
         {{currentCategory$ | async}}
       </a>
       <app-articles-controls
-        class="item controls"
+        class="menu"
         *ngIf="visibleControls === 'articles'"
       ></app-articles-controls>
       <app-article-controls
-        class="controls"
+        class="menu"
         *ngIf="visibleControls === 'article'"
       ></app-article-controls>
     </div>

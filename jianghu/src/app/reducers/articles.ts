@@ -6,10 +6,11 @@ import {
   UPSERT_ARTICLE,
   SET_GROUP,
   SET_FAV,
-  SET_MATCH
+  SET_MATCH,
+  SET_SEARCH
 } from '../actions/articles';
 
-const initial = { items: {}, match: { group: 'unread', fav: false } };
+const initial = { items: {}, match: { group: 'unread', fav: false }, search: null };
 
 export const articles = (state = initial, action) => {
   switch (action.type) {
@@ -18,7 +19,7 @@ export const articles = (state = initial, action) => {
 
     case REMOVE_ARTICLE:
       return Object.assign({}, state,
-        { items: omit(state.items, action.id) });
+        { items: omit(state.items, action.uaid) });
 
     case UPSERT_ARTICLE:
       const uArticle = action.article;
@@ -38,6 +39,10 @@ export const articles = (state = initial, action) => {
     case SET_MATCH:
       const match = Object.assign({}, state.match, action.match);
       return Object.assign({}, state, { match });
+
+    case SET_SEARCH:
+      return Object.assign({}, state, { search: action.search });
+
     default:
       return state;
   }

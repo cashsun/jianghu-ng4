@@ -1,0 +1,33 @@
+<div class="dimmable description">
+  <div class="ui active dimmer">
+    <div class="content">
+      <div class="center">
+        <div class="ui big inverted {{loadingArticle?'loading':''}} circular icon button" #addBtn>
+          <i class="plus icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="content">
+  <div class="header">
+    点击上方 [+] 收藏文章
+  </div>
+  <div class="meta">
+    <span>您还未添加文章</span>
+  </div>
+</div>
+<div class="extra content">
+  <span class="right floated">
+    <i class="book icon"></i>
+    江湖
+  </span>
+</div>
+
+<app-add-article-modal
+  [open$]="openAddArticleModal$"
+  [submit]="onSubmit"
+  [uid]="uid"
+></app-add-article-modal>

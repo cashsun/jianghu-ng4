@@ -54,14 +54,17 @@ button, .header {
     line-height: 1.6em;
   }
 }
+
 .extra.content {
   height: 2.4em;
   padding-top: 0.4em !important;
-  .source > a {
-    font-size: 0.9em;
-    &:hover {
-      text-decoration: none;
+  .source {
+    & > a {
+      font-size: 0.9em;
     }
+    width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
 }

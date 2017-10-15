@@ -17,6 +17,8 @@ import { ArticlesService } from './services/articles.service';
 import { UserActions } from './actions/user';
 import { ArticlesActions } from './actions/articles';
 import { WindowService } from './services/window.service';
+import { AddArticleModalComponent } from './shared/add-article-modal.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -27,14 +29,15 @@ import { WindowService } from './services/window.service';
     BrowserModule,
     HttpClientModule,
     NgReduxModule,
+    SharedModule,
     AppRoutingModule,
     ArticlesModule,
   ],
   providers: [
     API,
+    UserService,
     AuthGuard,
     WindowService,
-    UserService,
     ArticlesService,
 
     ArticlesActions,

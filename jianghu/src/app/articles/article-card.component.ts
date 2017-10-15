@@ -1,13 +1,24 @@
 import {
-  Component, Input, AfterViewInit, OnInit, ViewChild, ElementRef, OnChanges,
-  AfterViewChecked, AfterContentInit
+  Component, Input, OnInit, ViewChild, ElementRef,
+  AfterViewChecked,
 } from '@angular/core';
 import { pipe, sortBy, prop, values } from 'ramda';
 import { IUserArticle } from '../types/models';
-import { Observable } from 'rxjs/Observable';
 import dateFormat from 'dateformat';
 import { ArticlesService } from '../services/articles.service';
-const DOMAIN_PREFIX = /http.*:\/\//;
+const DOMAIN_PREFIX = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n\?\=]+)/im;
+
+function domain(url) {
+  let result;
+  let match;
+  if (match = url.match(DOMAIN_PREFIX)) {
+    result = match[1]
+    if (match = result.match(/^[^\.]+\.(.+\..+)$/)) {
+      result = match[1]
+    }
+  }
+  return result
+}
 
 declare const $;
 
@@ -24,7 +35,6 @@ export class ArticleCardComponent implements AfterViewChecked, OnInit {
   sourceText: string;
   formatteddate: string;
   loading = false;
-  dimmerContext = this;
 
   constructor(private articlesService: ArticlesService) {
   }
@@ -33,7 +43,7 @@ export class ArticleCardComponent implements AfterViewChecked, OnInit {
     if (this.uArticle.author && this.uArticle.author.length > 0) {
       this.sourceText = this.uArticle.author.join(',');
     } else {
-      this.sourceText = this.uArticle.url.replace(DOMAIN_PREFIX, '').split('/')[0];
+      this.sourceText = domain(this.uArticle.url);
     }
     this.formatteddate = dateFormat(this.uArticle.date, 'fullDate');
   }
@@ -46,11 +56,14 @@ export class ArticleCardComponent implements AfterViewChecked, OnInit {
 
 
   onClickBookmarkButton() {
-    console.log('click bookmark');
+    const updated = { _id: this.uArticle._id, group: 'unread' };
+    this.loading = true;
+    this.articlesService.updateUserArticle(updated)
+      .subscribe()
+      .add(() => this.loading = false);
   }
 
   onClickArchiveButton() {
-    console.log('click archive');
     const updated = { _id: this.uArticle._id, group: 'archived' };
     this.loading = true;
     this.articlesService.updateUserArticle(updated)
@@ -59,11 +72,18 @@ export class ArticleCardComponent implements AfterViewChecked, OnInit {
   }
 
   onClickFavButton() {
-    console.log('click fav');
+    const updated = { _id: this.uArticle._id, favourite: !this.uArticle.favourite };
+    this.loading = true;
+    this.articlesService.updateUserArticle(updated)
+      .subscribe()
+      .add(() => this.loading = false);
   }
 
   onClickRemoveButton() {
-    console.log('click remove');
+    this.loading = true;
+    this.articlesService.removeUserArticle(this.uArticle._id)
+      .subscribe()
+      .add(() => this.loading = false);
   }
 
   onImageLoadError() {

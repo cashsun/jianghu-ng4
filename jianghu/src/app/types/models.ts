@@ -13,7 +13,8 @@ export interface IMatch {
 
 export interface IArticles {
   items: { [key: string]: IUserArticle },
-  match: IMatch
+  match: IMatch,
+  search?: string
 }
 
 export interface IUserArticle {

@@ -34,32 +34,41 @@
 
 
 <ng-template #dimmerTemplate>
-  <div class="ui dimmer">
-    <div class="content">
+  <div class="ui {{loading?'active':''}} dimmer">
+    <div *ngIf="!loading" class="content">
       <div class="center">
         <div *ngIf="uArticle.group === 'unread'"
              class="ui inverted circular icon button"
+             title="已阅"
              (click)="onClickArchiveButton()"
         >
           <i class="icon checkmark box"></i>
         </div>
         <div *ngIf="uArticle.group !== 'unread'"
              class="ui inverted circular icon button"
+             title="收藏"
              (click)="onClickBookmarkButton()"
         >
           <i class="icon bookmark outline"></i>
         </div>
         <div class="ui inverted circular icon button"
              (click)="onClickFavButton()"
+             title="{{uArticle.favourite?'移出[欢喜]':'欢喜'}}"
         >
           <i class="icon heart {{uArticle.favourite?'':'outline'}}"></i>
         </div>
         <div class="ui inverted circular icon button"
              (click)="onClickRemoveButton()"
+             title="删除"
         >
           <i class="icon trash outline"></i>
         </div>
       </div>
     </div>
+    <div *ngIf="loading" class="ui big loader"></div>
   </div>
+</ng-template>
+
+<ng-template #loader>
+  <div *ngIf="loading" class="ui big loader"></div>
 </ng-template>

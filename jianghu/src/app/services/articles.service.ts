@@ -48,4 +48,13 @@ export class ArticlesService {
 
   }
 
+  removeUserArticle(uaid: string) {
+    return this.api.removeUserArticle(uaid)
+      .map(() => this.articlesActions.removeArticle(uaid));
+  }
+
+  setSearch(search: string) {
+    return this.articlesActions.setSearch(search);
+  }
+
 }

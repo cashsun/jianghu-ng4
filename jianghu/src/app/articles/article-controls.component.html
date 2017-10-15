@@ -1,32 +1,42 @@
-<div class="ui mini icon basic buttons">
-  <button
-    title="返回"
-    routerLink="articles"
-    class="ui icon button"
-  >
-    <i class="angle left icon"></i>
-  </button>
+<a title="返回"
+   routerLink="articles"
+   class="item"
+>
+  <i class="angle left icon"></i>
+</a>
 
-  <button
-    title="{{hasAdded()?'删除':'收藏'}}"
-    class="ui {{loading?'loading':''}} icon button"
-  >
-    <i class="{{hasAdded()?'trash outline':'plus'}} icon"></i>
-  </button>
+<a title="{{hasAdded()?'删除':'收藏'}}"
+   class="item"
+   (click)="onClickRemoveAdd()"
+>
+  <i *ngIf="!loading" class="{{hasAdded()?'trash outline':'plus'}} icon"></i>
+  <ng-container *ngTemplateOutlet="loader"></ng-container>
+</a>
 
-  <button
-    title="{{isFav()?'移出[欢喜]':'加入[欢喜]'}}"
-    class="ui {{loading?'loading':''}} icon button"
-  >
-    <i class="heart {{isFav()?'':'outline'}} icon"></i>
-  </button>
+<a title="{{isFav()?'移出[欢喜]':'加入[欢喜]'}}"
+   class="item"
+   (click)="onClickFavButton()"
+>
+  <i *ngIf="!loading" class="heart {{isFav()?'':'outline'}} icon"></i>
+  <ng-container *ngTemplateOutlet="loader"></ng-container>
+</a>
 
-  <button
-    title="{{isUnread()?'加入[已阅]':'加入[未读]'}}"
-    class="ui {{loading?'loading':''}} icon button"
-  >
-    <i class="{{isUnread()?'square outline':'checkmark box'}} icon"></i>
-  </button>
+<a title="{{isUnread()?'加入[已阅]':'加入[未读]'}}"
+   class="item"
+   (click)="onClickArchiveBookmark()"
+>
+  <i *ngIf="!loading" class="{{isUnread()?'checkmark box':'bookmark outline'}} icon"></i>
+  <ng-container *ngTemplateOutlet="loader"></ng-container>
+</a>
 
-  <i class="plus icon"></i>
-</div>
+<a title="分享"
+   class="item"
+   (click)="onClickShare()"
+>
+  <i *ngIf="!loading" class="share alternate icon"></i>
+  <ng-container *ngTemplateOutlet="loader"></ng-container>
+</a>
+
+<ng-template #loader>
+  <i *ngIf="loading" class="ui active inline mini loader"></i>
+</ng-template>

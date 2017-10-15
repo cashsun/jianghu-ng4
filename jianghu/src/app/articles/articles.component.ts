@@ -11,12 +11,15 @@ import { Subscription } from 'rxjs/Subscription';
 const dateDesc = (i) => -new Date(i.date);
 
 const By = (match) =>
-  i => (match.fav === !!i.favourite) && i.group === match.group;
+  i => (match.fav && i.favourite || true) && i.group === match.group;
+
+const byText = (s) =>
+  i => s ? new RegExp(`.*${s}.*`, 'i').test(i.title) : true;
 
 export const toItemList = (items$: Observable<IArticles>) =>
   items$
-    .map(({ items, match }) =>
-      values(items).filter(By(match))
+    .map(({ items, match, search }) =>
+      values(items).filter(By(match)).filter(byText(search))
     )
     .map(sortBy(dateDesc));
 
@@ -67,8 +70,11 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   @select$(['articles', 'match'], getMatch$)
   readonly match$: Observable<IMatch>;
 
+  @select(['articles', 'search'])
+  readonly search$: Observable<string>;
+
   numOfColumns: string;
-  loadingArticles = false;
+  loadingArticles = true;
 
   constructor(private articlesService: ArticlesService,
               private route: ActivatedRoute,
@@ -102,7 +108,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   fetchArticles(uid, match?) {
     if (uid) {
       this.loadingArticles = true;
-      this.articlesService.fetchArticles(uid, match)
+      return this.articlesService.fetchArticles(uid, match)
         .subscribe()
         .add(() => this.loadingArticles = false);
     }

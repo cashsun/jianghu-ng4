@@ -6,8 +6,25 @@
     class="card"
   ></app-article-card>
 
+  <app-article-card-add
+    *ngIf="!loadingArticles
+    && !(visibleArticles$ | async)?.length
+    && (match$ | async)?.group === 'unread'
+    && !(match$ | async)?.favourite
+    && !(search$ | async)"
+    class="card"
+  ></app-article-card-add>
+
   <div *ngIf="loadingArticles" class="ui active inverted dimmer">
     <div class="ui huge loader"></div>
+  </div>
+  <div
+    *ngIf="!loadingArticles
+    && !(visibleArticles$ | async)?.length
+    && ((match$ | async)?.group !== 'unread' || (match$ | async)?.favourite || (search$ | async))"
+    class="ui middle aligned container row no-item-info"
+  >
+    没有文章
   </div>
 </div>
 
