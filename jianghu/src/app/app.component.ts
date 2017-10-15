@@ -1,5 +1,5 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, RoutesRecognized } from '@angular/router';
+import { Component, AfterViewInit, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { prop } from 'ramda';
 declare const $: any;
@@ -15,7 +15,7 @@ const categories = [
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('sidebar') sidebar: ElementRef;
 
   title = 'app';
@@ -28,6 +28,10 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.setupSidebar();
+    this.setupCurrentCategory();
+  }
+
+  ngOnInit() {
     this.setupCurrentCategory();
   }
 

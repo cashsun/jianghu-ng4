@@ -13,7 +13,7 @@ const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b
 })
 export class AddArticleModalComponent implements OnInit, OnDestroy {
   @Input() open$: Observable<any>;
-  @Input() submit?: (fetch: Subscription) => {};
+  @Input() submit: (fetch: Subscription) => {};
   @Input() uid: string;
 
   url: string;

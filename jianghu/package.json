@@ -35,9 +35,9 @@
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
-    "@angular/cli": "1.1.0",
-    "@angular/compiler-cli": "^4.0.0",
-    "@angular/language-service": "^4.0.0",
+    "@angular/cli": "1.4.7",
+    "@angular/compiler-cli": "^4.4.4",
+    "@angular/language-service": "^4.4.4",
     "@types/jasmine": "2.5.45",
     "@types/node": "~6.0.60",
     "codelyzer": "~3.0.1",
