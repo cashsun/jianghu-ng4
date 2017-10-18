@@ -1,19 +1,18 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { pipe, sortBy, prop, values, map } from 'ramda';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ArticlesService } from '../services/articles.service';
 import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 import { IArticle } from '../types/models';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { WindowService } from '../services/window.service';
-const DOMAIN_PREFIX = /http.*:\/\//;
-declare const $: any;
+import parse from 'url-parse';
 const toSourceText = (uArticle) => {
   if (uArticle.author && uArticle.author.length > 0) {
     return uArticle.author.join(',');
   } else {
-    return uArticle.url.replace(DOMAIN_PREFIX, '').split('/')[0];
+    return parse(uArticle.url).hostname;
   }
 };
 
@@ -33,7 +32,7 @@ export class ArticleComponent implements OnInit {
   @select(['user', '_id'])
   private readonly uid$: Observable<string>;
 
-  constructor(private router: Router,
+  constructor(private title: Title,
               private route: ActivatedRoute,
               private articleService: ArticlesService,
               private sanitizer: DomSanitizer,
@@ -52,7 +51,7 @@ export class ArticleComponent implements OnInit {
           this.articleService.fetchArticle(uaid)
             .subscribe(
               article => {
-                $('head > title').val(article.title);
+                this.title.setTitle(article.title);
                 this.article = article;
                 this.sourceText = toSourceText(article);
                 this.safeContent = this.sanitizer.bypassSecurityTrustHtml(article.content);

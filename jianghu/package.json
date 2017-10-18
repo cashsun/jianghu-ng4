@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -32,6 +32,7 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "rxjs": "^5.1.0",
+    "url-parse": "^1.1.9",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
@@ -40,6 +41,7 @@
     "@angular/language-service": "^4.4.4",
     "@types/jasmine": "2.5.45",
     "@types/node": "~6.0.60",
+    "angular-playground": "^2.2.0",
     "codelyzer": "~3.0.1",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",

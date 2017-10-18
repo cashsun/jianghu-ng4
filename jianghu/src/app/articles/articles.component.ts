@@ -1,3 +1,4 @@
+import { Title } from '@angular/platform-browser';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { select, select$ } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
@@ -77,11 +78,13 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   loadingArticles = true;
 
   constructor(private articlesService: ArticlesService,
-              private route: ActivatedRoute,
-              private windowService: WindowService) {
+    private route: ActivatedRoute,
+    private windowService: WindowService,
+    private title: Title) {
   }
 
   ngOnInit() {
+    this.title.setTitle('江湖');
     const resize$ = this.windowService.width$
       .map(width => this.numOfColumns = getNumOfColumns(width));
 

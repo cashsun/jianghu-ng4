@@ -23,9 +23,9 @@ export class UserService {
     return this.api.login(email, password)
       .map(data => {
           if (data.user) {
-            this.userActions.setUser(data.user);
+            return this.userActions.setUser(data.user);
           }
-          return data
+          return Observable.throw('no such user');
         }
       );
   }

@@ -1,0 +1,94 @@
+<div class="ui middle aligned center aligned grid">
+  <div class="column login-form">
+    <form class="ui form" #f="ngForm" (submit)="onSubmit(f)">
+      <div class="ui segment">
+        <h4 class="ui dividing header">注册</h4>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input
+              type="text"
+              name="firstname"
+              #firstname="ngModel"
+              ngModel
+              required
+              placeholder="First Name"
+              (keyup.enter)="onClickSignup()"
+              autocomplete="off"
+            />
+          </div>
+        </div><div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input
+              type="text"
+              name="lastname"
+              #lastname="ngModel"
+              required
+              ngModel
+              placeholder="Last Name"
+              (keyup.enter)="onClickSignup()"
+              autocomplete="off"
+            />
+          </div>
+        </div><div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input
+              type="text"
+              name="email"
+              required
+              #email="ngModel"
+              ngModel
+              placeholder="E-mail address"
+              (keyup.enter)="onClickSignup()"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input
+              minlength="3"
+              required
+              type="password"
+              name="password"
+              #password="ngModel"
+              ngModel
+              (keyup.enter)="onClickSignup()"
+              placeholder="Password"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input
+              minlength="3"
+              required
+              type="password"
+              name="passwordValidate"
+              #passwordValidate="ngModel"
+              ngModel
+              (keyup.enter)="onClickSignup()"
+              placeholder="Password"
+            />
+          </div>
+        </div>
+        <button
+          type="submit"
+          [disabled]="isSignupButtonDisabled()"
+          class="ui fluid large teal submit button"
+          (click)="onClickSignup()"
+        >注册
+        </button>
+      </div>
+
+    </form>
+
+    <div *ngIf="errorMessage" class="ui negative message">
+      <p >{{errorMessage}}</p>
+    </div>
+  </div>
+</div>

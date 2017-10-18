@@ -16,6 +16,7 @@ export class UserActions {
       type: SET_USER,
       user
     });
+    return user;
   }
 
   removeUser() {

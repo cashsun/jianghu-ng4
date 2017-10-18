@@ -1,4 +1,5 @@
 import { IUser, IArticles } from './types/models';
+import { environment } from '../environments/environment';
 
 export interface IAppState {
   user?: IUser,
@@ -12,9 +13,12 @@ import {
 } from 'redux';
 import { createLogger } from 'redux-logger';
 import { rootReducer } from './reducers';
-
+const middleWares = [];
+if (!environment.production) {
+  middleWares.push(createLogger());
+}
 
 export const store: Store<IAppState> = createStore(
   rootReducer,
-  applyMiddleware(createLogger())
+  applyMiddleware(...middleWares)
 );

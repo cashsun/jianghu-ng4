@@ -20,6 +20,10 @@ export class AddArticleModalComponent implements OnInit, OnDestroy {
   urlInputError = 'disabled';
   @ViewChild('addArticleModal')
   private readonly addArticleModal: ElementRef;
+
+  @ViewChild('urlInput')
+  private readonly urlInput: ElementRef;
+
   private sub: Subscription;
 
   constructor(private articlesService: ArticlesService) {
@@ -48,6 +52,7 @@ export class AddArticleModalComponent implements OnInit, OnDestroy {
   onOpenAddArticleModal() {
     $(this.addArticleModal.nativeElement)
       .modal('show');
+    $(this.urlInput.nativeElement).val('');
   }
 
   onAddArticleSubmit(hideModal) {

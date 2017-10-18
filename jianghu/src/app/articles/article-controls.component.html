@@ -2,14 +2,14 @@
    routerLink="articles"
    class="item"
 >
-  <i class="angle left icon"></i>
+  <i class="angle large left icon"></i>
 </a>
 
 <a title="{{hasAdded()?'删除':'收藏'}}"
    class="item"
    (click)="onClickRemoveAdd()"
 >
-  <i *ngIf="!loading" class="{{hasAdded()?'trash outline':'plus'}} icon"></i>
+  <i *ngIf="!loading" class="large {{hasAdded()?'trash outline':'plus'}} icon"></i>
   <ng-container *ngTemplateOutlet="loader"></ng-container>
 </a>
 
@@ -17,7 +17,7 @@
    class="item"
    (click)="onClickFavButton()"
 >
-  <i *ngIf="!loading" class="heart {{isFav()?'':'outline'}} icon"></i>
+  <i *ngIf="!loading" class="large heart {{isFav()?'':'outline'}} icon"></i>
   <ng-container *ngTemplateOutlet="loader"></ng-container>
 </a>
 
@@ -25,7 +25,7 @@
    class="item"
    (click)="onClickArchiveBookmark()"
 >
-  <i *ngIf="!loading" class="{{isUnread()?'checkmark box':'bookmark outline'}} icon"></i>
+  <i *ngIf="!loading" class="large {{isUnread()?'checkmark box':'bookmark outline'}} icon"></i>
   <ng-container *ngTemplateOutlet="loader"></ng-container>
 </a>
 
@@ -33,7 +33,7 @@
    class="item"
    (click)="onClickShare()"
 >
-  <i *ngIf="!loading" class="share alternate icon"></i>
+  <i *ngIf="!loading" class="large share alternate icon"></i>
   <ng-container *ngTemplateOutlet="loader"></ng-container>
 </a>
 

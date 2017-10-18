@@ -1,7 +1,8 @@
 import './rxjs-extensions';
-
+import { Router } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule, routedAppComponents } from './app-routing.module';
 import { ArticlesModule } from './articles/articles.module';
@@ -17,8 +18,8 @@ import { ArticlesService } from './services/articles.service';
 import { UserActions } from './actions/user';
 import { ArticlesActions } from './actions/articles';
 import { WindowService } from './services/window.service';
-import { AddArticleModalComponent } from './shared/add-article-modal.component';
 import { SharedModule } from './shared/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { SharedModule } from './shared/shared.module';
     BrowserModule,
     HttpClientModule,
     NgReduxModule,
+    FormsModule,
     SharedModule,
     AppRoutingModule,
     ArticlesModule,
@@ -48,10 +50,17 @@ import { SharedModule } from './shared/shared.module';
   ]
 })
 export class AppModule {
-  constructor(ngRedux: NgRedux<IAppState>, private userService: UserService) {
+  constructor(ngRedux: NgRedux<IAppState>, private userService: UserService, private router: Router) {
     ngRedux.provideStore(store);
+
     if (this.userService.isLoggedIn()) {
-      this.userService.login().subscribe();
+      this.userService.login().subscribe(
+        () => { },
+        err => {
+          userService.logout();
+          router.navigate(['login']);
+        }
+      )
     }
   }
 }

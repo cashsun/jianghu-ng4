@@ -5,19 +5,11 @@ import {
 import { pipe, sortBy, prop, values } from 'ramda';
 import { IUserArticle } from '../types/models';
 import dateFormat from 'dateformat';
+import parse from 'url-parse';
 import { ArticlesService } from '../services/articles.service';
-const DOMAIN_PREFIX = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n\?\=]+)/im;
 
 function domain(url) {
-  let result;
-  let match;
-  if (match = url.match(DOMAIN_PREFIX)) {
-    result = match[1]
-    if (match = result.match(/^[^\.]+\.(.+\..+)$/)) {
-      result = match[1]
-    }
-  }
-  return result
+  return parse(url).hostname;
 }
 
 declare const $;
@@ -45,6 +37,10 @@ export class ArticleCardComponent implements AfterViewChecked, OnInit {
     } else {
       this.sourceText = domain(this.uArticle.url);
     }
+    if (this.uArticle.image && /\.gif$/i.test(this.uArticle.image)) {
+      this.uArticle.image = null;
+    }
+
     this.formatteddate = dateFormat(this.uArticle.date, 'fullDate');
   }
 

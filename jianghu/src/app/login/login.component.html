@@ -53,13 +53,11 @@
         </button>
       </div>
 
-      <div class="ui error message"></div>
-
     </form>
 
     <div class="ui message">
       {{loginErrorMessage}}
-      New to us? <a routerLink="/articles">Sign Up</a>
+      New to us? <a routerLink="/signup"> Sign Up</a>
     </div>
     <div *ngIf="loginErrorMessage" class="ui negative message">
       <div class="header">
