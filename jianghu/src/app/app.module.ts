@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import './rxjs-extensions';
 import { Router } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
@@ -6,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule, routedAppComponents } from './app-routing.module';
 import { ArticlesModule } from './articles/articles.module';
-import { HttpClientModule } from '@angular/common/http';
 import { API } from './services/api';
 import { NgReduxModule, NgRedux } from '@angular-redux/store';
 import { store, IAppState } from './store';
@@ -30,7 +30,6 @@ import { SharedModule } from './shared/shared.module';
     BrowserModule,
     HttpClientModule,
     NgReduxModule,
-    FormsModule,
     SharedModule,
     AppRoutingModule,
     ArticlesModule,

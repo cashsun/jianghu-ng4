@@ -7,11 +7,11 @@ import { Observable } from 'rxjs/Observable';
 export class UserService {
 
   constructor(private api: API,
-              private userActions: UserActions) {
+    private userActions: UserActions) {
   }
 
   isLoggedIn() {
-    return !!this.api.getToken();
+    return this.api.hasToken();
   }
 
   logout() {
@@ -22,11 +22,21 @@ export class UserService {
   login(email?, password?) {
     return this.api.login(email, password)
       .map(data => {
-          if (data.user) {
-            return this.userActions.setUser(data.user);
-          }
-          return Observable.throw('no such user');
+        if (data.user) {
+          return this.userActions.setUser(data.user);
         }
+        return Observable.throw('no such user');
+      }
       );
   }
+
+  signup(form) {
+    return this.api.signup(form)
+      .map(data => {
+        if (data.user) {
+          return this.userActions.setUser(data.user);
+        }
+      });
+  }
+
 }

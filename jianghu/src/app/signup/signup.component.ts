@@ -25,15 +25,15 @@ export class SignupComponent implements OnInit {
   redirectTo: string;
 
   constructor(private userService: UserService,
-              private router: Router,
-              private route: ActivatedRoute) {
-    route.queryParams.subscribe((params: ExpectedParam) => {
-      this.redirectTo = params.afterLogin;
-    });
+    private router: Router,
+    private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.userService.logout();
+    this.route.queryParams.subscribe((params: ExpectedParam) => {
+      this.redirectTo = params.afterLogin;
+    });
   }
 
   onSignupError(err: HttpErrorResponse) {
@@ -47,12 +47,7 @@ export class SignupComponent implements OnInit {
     return false;
   }
 
-  onClickSignup() {
-
-  }
-
   onSubmit(f: NgForm) {
-    console.log('f:', f.value);
     if (!f.value.firstname) {
       return this.errorMessage = '请输入名字。';
     }
@@ -73,6 +68,17 @@ export class SignupComponent implements OnInit {
       return this.errorMessage = '两次密码不匹配。';
     }
     this.errorMessage = '';
+
+    this.loading = true;
+    this.userService.signup(f.value)
+      .subscribe(
+      () => {
+        this.router.navigate([this.redirectTo || 'articles']);
+      },
+      err => {
+        this.errorMessage = `Sign up failed: ${err.status}`;
+      })
+      .add(() => this.loading = false)
   }
 
 }

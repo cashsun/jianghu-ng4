@@ -1,7 +1,4 @@
-import {
-  Component, Input, OnInit, ViewChild, ElementRef,
-  AfterViewChecked,
-} from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
 import { pipe, sortBy, prop, values } from 'ramda';
 import { IUserArticle } from '../types/models';
 import dateFormat from 'dateformat';
@@ -23,6 +20,9 @@ declare const $;
 export class ArticleCardComponent implements AfterViewChecked, OnInit {
   @Input() uArticle: IUserArticle;
   @ViewChild('dimmer') dimmer: ElementRef;
+
+  @HostBinding('class.ui') uiClass = true;
+  @HostBinding('class.card') cardClass = true;
 
   sourceText: string;
   formatteddate: string;

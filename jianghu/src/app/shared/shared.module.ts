@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AddArticleModalComponent } from './add-article-modal.component';
 
@@ -6,8 +8,9 @@ import { AddArticleModalComponent } from './add-article-modal.component';
     AddArticleModalComponent
   ],
   exports: [
-    AddArticleModalComponent
+    CommonModule,
+    FormsModule,
+    AddArticleModalComponent,
   ]
 })
-export class SharedModule {
-}
+export class SharedModule { }

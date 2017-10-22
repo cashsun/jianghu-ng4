@@ -1,5 +1,5 @@
 import { Title } from '@angular/platform-browser';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { select, select$ } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 import { pipe, sortBy, prop, values, not, isEmpty } from 'ramda';
@@ -8,6 +8,8 @@ import { ArticlesService } from '../services/articles.service';
 import { ActivatedRoute } from '@angular/router';
 import { WindowService } from '../services/window.service';
 import { Subscription } from 'rxjs/Subscription';
+
+declare const $: any;
 
 const dateDesc = (i) => -new Date(i.date);
 
@@ -24,6 +26,10 @@ export const toItemList = (items$: Observable<IArticles>) =>
     )
     .map(sortBy(dateDesc));
 
+interface IParam {
+  group: string,
+  favourite?: boolean
+}
 
 export const getMatch$ = (match$: Observable<IMatch>) => {
   return match$
@@ -60,7 +66,7 @@ function getNumOfColumns(windowWidth) {
   templateUrl: './articles.component.html',
   styleUrls: ['./articles.component.less']
 })
-export class ArticlesComponent implements OnInit, OnDestroy {
+export class ArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   private uid: string;
   private sub: Subscription;
   @select(['user', '_id'])
@@ -69,7 +75,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   readonly visibleArticles$: Observable<IUserArticle[]>;
 
   @select$(['articles', 'match'], getMatch$)
-  readonly match$: Observable<IMatch>;
+  readonly match$: Observable<IParam>;
 
   @select(['articles', 'search'])
   readonly search$: Observable<string>;
@@ -106,6 +112,10 @@ export class ArticlesComponent implements OnInit, OnDestroy {
       .merge(params$)
       .merge(uid$.concat(match$))
       .subscribe();
+  }
+
+  ngAfterViewInit() {
+    $('.app-content-container').scrollTop(0);
   }
 
   fetchArticles(uid, match?) {

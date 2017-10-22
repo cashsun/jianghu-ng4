@@ -19,7 +19,7 @@ const toSourceText = (uArticle) => {
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
-  styleUrls: ['./article.component.less']
+  styleUrls: ['./article.component.less'],
 })
 export class ArticleComponent implements OnInit {
   loading = false;

@@ -28,21 +28,25 @@ export class API {
     this.token = localStorage.getItem(KEY);
   }
 
+  private getToken() {
+    return this.token;
+  }
+
+  private setToken(token: string) {
+    this.token = token;
+    localStorage.setItem(KEY, token);
+  }
+
   defaultHeader() {
     return new HttpHeaders({ 'hanabi-token': this.getToken() });
   }
 
-  getToken() {
-    return this.token;
+  hasToken() {
+    return !!this.getToken()
   }
 
   logout() {
     this.setToken('');
-  }
-
-  setToken(token: string) {
-    this.token = token;
-    localStorage.setItem(KEY, token);
   }
 
   login(email?: string, password?: string) {
@@ -53,6 +57,21 @@ export class API {
       }
     ).map(data => {
       if (data.token) {
+        this.setToken(data.token);
+      }
+      return data;
+    });
+  }
+
+  signup({email, password, passwordValidate, firstname, lastname}) {
+    return this.http.post<ILoginResponse>(`${baseUrl}/api/register`, {
+      email,
+      password,
+      passwordValidate,
+      firstname,
+      lastname
+    }).map(data => {
+      if (data.user) {
         this.setToken(data.token);
       }
       return data;

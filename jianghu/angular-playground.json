@@ -1,3 +1,10 @@
 {
-    "sourceRoot": "./src"
+    "sourceRoot": "./src",
+    "angularCli": {
+        "appName": "playground",
+        "args": [
+            "--proxy-config",
+            "proxy.conf.json"
+        ]
+    }
 }

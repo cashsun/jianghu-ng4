@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   baseUrl: '',
-  hmr: false
+  hmr: true
 };

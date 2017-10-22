@@ -9,7 +9,6 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     SharedModule,
-    CommonModule,
     ArticlesRoutingModule
   ],
   providers: [

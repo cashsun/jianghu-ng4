@@ -22,7 +22,7 @@ export interface IUserArticle {
   userId: string,
   image?: string,
   url: string,
-  favourite: boolean,
+  favourite?: boolean,
   title: string,
   group: string,
   date: string,

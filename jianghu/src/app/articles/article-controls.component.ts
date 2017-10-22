@@ -29,9 +29,9 @@ export class ArticleControlsComponent implements OnInit, OnDestroy {
   private sub: Subscription;
 
   constructor(private articlesService: ArticlesService,
-              private userService: UserService,
-              private router: Router,
-              private route: ActivatedRoute) {
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute) {
 
   }
 
@@ -89,7 +89,9 @@ export class ArticleControlsComponent implements OnInit, OnDestroy {
       this.loading = true;
       if (this.hasAdded()) {
         this.articlesService.removeUserArticle(this.uArticle._id)
-          .subscribe()
+          .subscribe(
+          () => this.router.navigate(['articles'])
+          )
           .add(() => this.loading = false);
       } else {
         this.articlesService.fetchArticleForUser(this.uArticle.url, this.uid)

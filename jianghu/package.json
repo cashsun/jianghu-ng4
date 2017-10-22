@@ -5,10 +5,14 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
+    "hmr": "ng serve --hmr -e=hmr --proxy-config proxy.conf.json",
     "build": "ng build",
+    "build:prod": "ng build -env=prod --no-sourcemap",
+    "build:nas": "ng build -env=prod --no-sourcemap",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "playground": "angular-playground"
   },
   "private": true,
   "dependencies": {
@@ -39,6 +43,7 @@
     "@angular/cli": "1.4.7",
     "@angular/compiler-cli": "^4.4.4",
     "@angular/language-service": "^4.4.4",
+    "@angularclass/hmr": "^2.1.3",
     "@types/jasmine": "2.5.45",
     "@types/node": "~6.0.60",
     "angular-playground": "^2.2.0",
@@ -54,6 +59,6 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
-    "typescript": "~2.3.3"
+    "typescript": "^2.4.0"
   }
 }

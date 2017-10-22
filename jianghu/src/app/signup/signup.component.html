@@ -5,7 +5,7 @@
         <h4 class="ui dividing header">注册</h4>
         <div class="field">
           <div class="ui left icon input">
-            <i class="user icon"></i>
+            <i class="address card icon"></i>
             <input
               type="text"
               name="firstname"
@@ -13,13 +13,12 @@
               ngModel
               required
               placeholder="First Name"
-              (keyup.enter)="onClickSignup()"
               autocomplete="off"
             />
           </div>
         </div><div class="field">
           <div class="ui left icon input">
-            <i class="user icon"></i>
+            <i class="address card icon"></i>
             <input
               type="text"
               name="lastname"
@@ -27,7 +26,6 @@
               required
               ngModel
               placeholder="Last Name"
-              (keyup.enter)="onClickSignup()"
               autocomplete="off"
             />
           </div>
@@ -41,7 +39,6 @@
               #email="ngModel"
               ngModel
               placeholder="E-mail address"
-              (keyup.enter)="onClickSignup()"
               autocomplete="off"
             />
           </div>
@@ -56,7 +53,6 @@
               name="password"
               #password="ngModel"
               ngModel
-              (keyup.enter)="onClickSignup()"
               placeholder="Password"
             />
           </div>
@@ -71,7 +67,7 @@
               name="passwordValidate"
               #passwordValidate="ngModel"
               ngModel
-              (keyup.enter)="onClickSignup()"
+              (keyup.enter)="onSubmit(f)"
               placeholder="Password"
             />
           </div>
@@ -80,7 +76,7 @@
           type="submit"
           [disabled]="isSignupButtonDisabled()"
           class="ui fluid large teal submit button"
-          (click)="onClickSignup()"
+          (click)="onSubmit(f)"
         >注册
         </button>
       </div>
